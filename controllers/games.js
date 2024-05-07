@@ -1,12 +1,9 @@
+// Файл controllers/games.js
+
 const sendAllGames = (req, res) => {
-  res.send(req.games);
+  res.setHeader("Content-Type", "application/json");
+  // Вернём найденные игры в формате JSON
+  res.end(JSON.stringify(req.gamesArray));
 };
 
-const sendUpdatedGames = (req, res) => {
-  res.send({
-    games: req.games,
-    updated: req.updatedObject,
-  });
-};
-
-module.exports = { sendAllGames, sendUpdatedGames };
+module.exports = sendAllGames;
