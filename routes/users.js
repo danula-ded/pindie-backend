@@ -8,6 +8,9 @@ const {
   findUserById,
   updateUser,
   deleteUser,
+  checkIsUserExists,
+  checkEmptyNameAndEmailAndPassword,
+  checkEmptyNameAndEmail,
 } = require("../middlewares/users");
 const {
   sendAllUsers,
@@ -20,9 +23,17 @@ const {
 // Обрабатываем запросs с роутом '/users'
 usersRouter.get("/users", findAllUsers, sendAllUsers);
 usersRouter.get("/users/:id", findUserById, sendUserById);
-usersRouter.post("/users", findAllUsers, createUser, sendUserCreated);
+usersRouter.post(
+  "/users",
+  findAllUsers,
+  checkIsUserExists,
+  checkEmptyNameAndEmailAndPassword,
+  createUser,
+  sendUserCreated
+);
 usersRouter.put(
   "/users/:id", // Слушаем запросы по эндпоинту
+  checkEmptyNameAndEmail,
   updateUser, // Обновляем запись в MongoDB
   sendUserUpdated // Возвращаем ответ на клиент
 );

@@ -8,6 +8,8 @@ const {
   findCategoryById,
   updateCategory,
   deleteCategory,
+  checkIsCategoryExists,
+  checkEmptyName,
 } = require("../middlewares/categories");
 const {
   sendAllCategories,
@@ -23,11 +25,14 @@ categoriesRouter.get("/categories/:id", findCategoryById, sendCategoryById);
 categoriesRouter.post(
   "/categories",
   findAllCategories,
+  checkIsCategoryExists,
+  checkEmptyName,
   createCategory,
   sendCategoryCreated
 );
 categoriesRouter.put(
   "/categories/:id", // Слушаем запросы по эндпоинту
+  checkEmptyName,
   updateCategory, // Обновляем запись в MongoDB
   sendCategoryUpdated // Возвращаем ответ на клиент
 );
