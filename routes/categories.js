@@ -7,12 +7,14 @@ const {
   createCategory,
   findCategoryById,
   updateCategory,
+  deleteCategory,
 } = require("../middlewares/categories");
 const {
   sendAllCategories,
   sendCategoryCreated,
   sendCategoryById,
   sendCategoryUpdated,
+  sendCategoryDeleted,
 } = require("../controllers/categories");
 
 // Обрабатываем запросы
@@ -29,6 +31,7 @@ categoriesRouter.put(
   updateCategory, // Обновляем запись в MongoDB
   sendCategoryUpdated // Возвращаем ответ на клиент
 );
+categoriesRouter.delete("/categories/:id", deleteCategory, sendCategoryDeleted);
 
 // Экспортируем роут для использования в приложении — app.js
 module.exports = categoriesRouter;

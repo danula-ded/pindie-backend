@@ -1,5 +1,3 @@
-// Файл middlewares/categories.js
-
 // Импортируем модель
 const categories = require("../models/category");
 
@@ -8,7 +6,6 @@ const findAllCategories = async (req, res, next) => {
   req.categoriesArray = await categories.find({});
   next();
 };
-
 const createCategory = async (req, res, next) => {
   console.log("POST /categories");
   try {
@@ -22,7 +19,6 @@ const createCategory = async (req, res, next) => {
       .send(JSON.stringify({ message: "Ошибка создания категории" }));
   }
 };
-
 const findCategoryById = async (req, res, next) => {
   console.log("GET /categories/:id");
   try {
@@ -33,7 +29,6 @@ const findCategoryById = async (req, res, next) => {
     res.status(404).send(JSON.stringify({ message: "Категория не найдена" }));
   }
 };
-
 const updateCategory = async (req, res, next) => {
   try {
     // В метод передаём id из параметров запроса и объект с новыми свойствами
@@ -41,7 +36,21 @@ const updateCategory = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка обновления игры" }));
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка обновления категории" }));
+  }
+};
+const deleteCategory = async (req, res, next) => {
+  try {
+    // Методом findByIdAndDelete по id находим и удаляем документ из базы данных
+    req.category = await categories.findByIdAndDelete(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка удаления категории" }));
   }
 };
 
@@ -51,4 +60,5 @@ module.exports = {
   createCategory,
   findCategoryById,
   updateCategory,
+  deleteCategory,
 };

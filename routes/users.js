@@ -7,12 +7,14 @@ const {
   createUser,
   findUserById,
   updateUser,
+  deleteUser,
 } = require("../middlewares/users");
 const {
   sendAllUsers,
   sendUserCreated,
   sendUserById,
   sendUserUpdated,
+  sendUserDeleted,
 } = require("../controllers/users");
 
 // Обрабатываем запросs с роутом '/users'
@@ -24,5 +26,6 @@ usersRouter.put(
   updateUser, // Обновляем запись в MongoDB
   sendUserUpdated // Возвращаем ответ на клиент
 );
+usersRouter.delete("/users/:id", deleteUser, sendUserDeleted);
 // Экспортируем роут для использования в приложении — app.js
 module.exports = usersRouter;

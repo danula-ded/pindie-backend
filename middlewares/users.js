@@ -42,9 +42,29 @@ const updateUser = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка обновления игры" }));
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка обновления пользователя" }));
   }
 };
 
+const deleteUser = async (req, res, next) => {
+  try {
+    // Методом findByIdAndDelete по id находим и удаляем документ из базы данных
+    req.user = await users.findByIdAndDelete(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка удаления пользователя" }));
+  }
+};
 // Экспортируем функцию поиска всех пользователей
-module.exports = { findAllUsers, createUser, findUserById, updateUser };
+module.exports = {
+  findAllUsers,
+  createUser,
+  findUserById,
+  updateUser,
+  deleteUser,
+};

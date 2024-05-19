@@ -53,5 +53,22 @@ const updateGame = async (req, res, next) => {
   }
 };
 
+const deleteGame = async (req, res, next) => {
+  try {
+    // Методом findByIdAndDelete по id находим и удаляем документ из базы данных
+    req.game = await games.findByIdAndDelete(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({ message: "Ошибка удаления игры" }));
+  }
+};
+
 // Экспортируем функции
-module.exports = { findAllGames, createGame, findGameById, updateGame };
+module.exports = {
+  findAllGames,
+  createGame,
+  findGameById,
+  updateGame,
+  deleteGame,
+};
