@@ -42,5 +42,16 @@ const findGameById = async (req, res, next) => {
   }
 };
 
+const updateGame = async (req, res, next) => {
+  try {
+    // В метод передаём id из параметров запроса и объект с новыми свойствами
+    req.game = await games.findByIdAndUpdate(req.params.id, req.body);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({ message: "Ошибка обновления игры" }));
+  }
+};
+
 // Экспортируем функции
-module.exports = { findAllGames, createGame, findGameById };
+module.exports = { findAllGames, createGame, findGameById, updateGame };
