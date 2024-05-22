@@ -1,5 +1,6 @@
 // Создаём роут для запросов пользователей
 const usersRouter = require("express").Router();
+const { checkAuth } = require("../middlewares/auth.js");
 
 // Импортируем вспомогательные функции
 const {
@@ -19,6 +20,7 @@ const {
   sendUserById,
   sendUserUpdated,
   sendUserDeleted,
+  sendMe,
 } = require("../controllers/users");
 
 // Обрабатываем запросs с роутом '/users'
@@ -29,16 +31,21 @@ usersRouter.post(
   findAllUsers,
   checkIsUserExists,
   checkEmptyNameAndEmailAndPassword,
+  checkAuth,
   hashPassword,
   createUser,
   sendUserCreated
 );
 usersRouter.put(
-  "/users/:id", // Слушаем запросы по эндпоинту
+  "/users/:id",
   checkEmptyNameAndEmail,
-  updateUser, // Обновляем запись в MongoDB
-  sendUserUpdated // Возвращаем ответ на клиент
+  checkAuth,
+  updateUser,
+  sendUserUpdated
 );
-usersRouter.delete("/users/:id", deleteUser, sendUserDeleted);
+usersRouter.delete("/users/:id", checkAuth, deleteUser, sendUserDeleted);
+
+usersRouter.get("/me", checkAuth, sendMe);
+
 // Экспортируем роут для использования в приложении — app.js
 module.exports = usersRouter;
