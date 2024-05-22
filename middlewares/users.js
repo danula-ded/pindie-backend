@@ -121,4 +121,5 @@ module.exports = {
   checkIsUserExists,
   checkEmptyNameAndEmailAndPassword,
   checkEmptyNameAndEmail,
+  hashPassword,
 };
