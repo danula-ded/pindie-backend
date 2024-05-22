@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
-// Не забываем импортировать модель, на которую ссылаемся
 const userModel = require("./user");
 const categoryModel = require("./category");
 
 const gameSchema = new mongoose.Schema({
   title: {
-    // Поле со строковым значением
     type: String,
-    // Явно указываем, что поле обязательно при записи в базу нового документа
     required: true,
   },
   description: {
@@ -26,20 +23,34 @@ const gameSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Добавляем поле для списка пользователей
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: userModel,
+      ref: userModel, // Содержит ссылки на связанные с игрой модели пользователей
     },
   ],
-  // Добавляем поле для списка категорий
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: categoryModel,
+      ref: categoryModel, // Содержит ссылки на связанные с игрой модели категорий
     },
   ],
 });
 
-module.exports = mongoose.model("games", gameSchema);
+gameSchema.statics.findGameByCategory = function (category) {
+  return this.find({}) // Выполним поиск всех игр
+    .populate({
+      path: "categories",
+      match: { name: category },
+    })
+    .populate({
+      path: "users",
+      select: "-password",
+    })
+    .then((games) => {
+      // Отфильтруем по наличию искомой категории
+      return games.filter((game) => game.categories.length > 0);
+    });
+};
+
+module.exports = mongoose.model("game", gameSchema);
