@@ -1,6 +1,6 @@
 const gamesRouter = require("./games");
 const usersRouter = require("./users");
-const categoriesRouter = require("./users");
+const categoriesRouter = require("./categories");
 const authRouter = require("./auth");
 
 const apiRouter = require("express").Router();
