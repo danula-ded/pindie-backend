@@ -3,6 +3,8 @@ const allowedCors = [
   "https://students-projects.ru",
   "http://localhost:3000",
   "http://localhost:3001",
+  "https://danula-ded-front.nomoredomainswork.ru",
+  "https://danula-ded-back.nomoredomainswork.ru",
 ];
 
 function cors(req, res, next) {
