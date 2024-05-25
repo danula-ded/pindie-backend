@@ -5,6 +5,7 @@ const allowedCors = [
   "http://localhost:3001",
   "https://danula-ded-front.nomoredomainswork.ru",
   "https://danula-ded-back.nomoredomainswork.ru",
+  "https://danula-ded-front.nomoredomainswork.ru/api",
 ];
 
 function cors(req, res, next) {
